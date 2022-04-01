@@ -1,33 +1,40 @@
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+
 function App() {
   return (
     <div className="page">
-      <header className="header page__header">
-        <a href="./index.html" className="header__logo" />
-      </header>
-      <main className="content page__content">
-        <section className="profile">
-          <div className="profile__content">
-            <div className="profile__avatar-container">
-              <img alt="Фото профиля" className="profile__avatar" />
-              <button className="button profile__avatar-edit-btn" aria-label="Редактировать аватар" type="button" />
-            </div>
-            <div className="profile__info">
-              <div className="profile__name">
-                <h1 className="profile__name-text" />
-                <button className="button profile__edit-btn" aria-label="Редактировать профиль" type="button" />
-              </div>
-              <p className="profile__job" />
-            </div>
-          </div>
-          <button className="button profile__add-btn" aria-label="Добавить профиль" />
-        </section>
-        <section className="elements">
-          <ul className="elements__list" />
-        </section>
-      </main>
-      <footer className="footer page__footer">
-        <p className="footer__copyright">© 2020 Mesto Russia</p>
-      </footer>
+      {/*<header className="header page__header">*/}
+      {/*  <a href="./index.html" className="header__logo" />*/}
+      {/*</header>*/}
+      <Header />
+      {/*<main className="content page__content">*/}
+      {/*  <section className="profile">*/}
+      {/*    <div className="profile__content">*/}
+      {/*      <div className="profile__avatar-container">*/}
+      {/*        <img alt="Фото профиля" className="profile__avatar" />*/}
+      {/*        <button className="button profile__avatar-edit-btn" aria-label="Редактировать аватар" type="button" />*/}
+      {/*      </div>*/}
+      {/*      <div className="profile__info">*/}
+      {/*        <div className="profile__name">*/}
+      {/*          <h1 className="profile__name-text" />*/}
+      {/*          <button className="button profile__edit-btn" aria-label="Редактировать профиль" type="button" />*/}
+      {/*        </div>*/}
+      {/*        <p className="profile__job" />*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*    <button className="button profile__add-btn" aria-label="Добавить профиль" />*/}
+      {/*  </section>*/}
+      {/*  <section className="elements">*/}
+      {/*    <ul className="elements__list" />*/}
+      {/*  </section>*/}
+      {/*</main>*/}
+      <Main />
+      {/*<footer className="footer page__footer">*/}
+      {/*  <p className="footer__copyright">© 2020 Mesto Russia</p>*/}
+      {/*</footer>*/}
+      <Footer />
       <div className="popup popup_type_edit">
         <div className="popup__container">
           <h2 className="popup__title">Редактировать профиль</h2>
