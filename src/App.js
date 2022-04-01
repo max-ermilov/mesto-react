@@ -1,9 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
   return (
-    <div>
+    <div className="page">
       <header className="header page__header">
         <a href="./index.html" className="header__logo" />
       </header>
