@@ -1,4 +1,4 @@
-.profile__add-btn {
+.profile__add-place-btn {
   height: 50px;
   max-width: 150px;
   width: 100%;
@@ -12,7 +12,7 @@
 }
 
 @media screen and (max-width: 580px) {
-  .profile__add-btn {
+  .profile__add-place-btn {
     width: 80%;
     min-width: 282px;
     box-sizing: border-box;
