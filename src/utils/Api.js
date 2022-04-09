@@ -1,5 +1,5 @@
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({baseUrl, headers}) {
     this._headers = headers;
     this._baseUrl = baseUrl;
   }
@@ -28,7 +28,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({ name, about }),
+      body: JSON.stringify({name, about}),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -44,7 +44,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({ name, link }),
+      body: JSON.stringify({name, link}),
     }).then((res) => this._checkResponse(res));
   }
 

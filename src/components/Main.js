@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { api } from "../utils/Api";
+import {api} from "../utils/Api";
 import Card from "./Card"
 
 function Main(props) {
@@ -11,12 +11,12 @@ function Main(props) {
   useEffect(() => {
 
     Promise.all([
-    api.getProfile()
-      .then(({name, about, avatar}) => {
-        setUserName(name)
-        setUserDescription(about)
-        setUserAvatar(avatar)
-      }),
+      api.getProfile()
+        .then(({name, about, avatar}) => {
+          setUserName(name)
+          setUserDescription(about)
+          setUserAvatar(avatar)
+        }),
       api.getInitialCards()
         .then(res => {
           const data = res.map(item => {
@@ -30,13 +30,13 @@ function Main(props) {
           });
           setCards(data);
         })
-      ])
+    ])
       .catch((err) => {
         console.log(err);
       })
   }, [])
 
-  return(
+  return (
     <main className="content page__content">
       <section className="profile">
         <div className="profile__content">
@@ -75,6 +75,7 @@ function Main(props) {
             cards.map(cardInfo => (
               <Card key={cardInfo.id}
                     card={cardInfo}
+                    onCardClick={props.onCardClick}
               />
             ))
           }
