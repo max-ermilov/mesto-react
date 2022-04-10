@@ -8,29 +8,51 @@ function Main(props) {
   const [userAvatar, setUserAvatar] = useState('');
   const [cards, setCards] = useState([]);
 
+  // useEffect(() => {
+  //
+  //   Promise.all([
+  //     api.getProfile()
+  //       .then(({name, about, avatar}) => {
+  //         setUserName(name)
+  //         setUserDescription(about)
+  //         setUserAvatar(avatar)
+  //       }),
+  //     api.getInitialCards()
+  //       .then(res => {
+  //         const data = res.map(item => {
+  //           return {
+  //             name: item.name,
+  //             likes: item.likes,
+  //             link: item.link,
+  //             id: item._id,
+  //             owner: item.owner
+  //           };
+  //         });
+  //         setCards(data);
+  //       })
+  //   ])
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }, [])
   useEffect(() => {
 
-    Promise.all([
-      api.getProfile()
-        .then(({name, about, avatar}) => {
-          setUserName(name)
-          setUserDescription(about)
-          setUserAvatar(avatar)
-        }),
-      api.getInitialCards()
-        .then(res => {
-          const data = res.map(item => {
-            return {
-              name: item.name,
-              likes: item.likes,
-              link: item.link,
-              id: item._id,
-              owner: item.owner
-            };
-          });
-          setCards(data);
-        })
-    ])
+    Promise.all([api.getProfile(), api.getInitialCards()])
+      .then(([{name, about, avatar}, cards]) => {
+        const data = cards.map(item => {
+          return {
+            name: item.name,
+            likes: item.likes,
+            link: item.link,
+            id: item._id,
+            owner: item.owner
+          };
+        });
+        setUserName(name)
+        setUserDescription(about)
+        setUserAvatar(avatar)
+        setCards(data);
+      })
       .catch((err) => {
         console.log(err);
       })
