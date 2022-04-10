@@ -22,4 +22,4 @@
 ## Ссылки
 
 * [Ссылка](https://github.com/max-ermilov/mesto-react) на репозиторий Github
-
+* [Ссылка](https://max-ermilov.github.io/mesto-react/) на страницу Github Pages
