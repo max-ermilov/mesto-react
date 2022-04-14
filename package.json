@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/max-ermilov/mesto-react/issues"
   },
-  "homepage": "https://github.com/max-ermilov/mesto-react#readme",
+  "homepage": "https://max-ermilov.github.io/mesto-react",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
