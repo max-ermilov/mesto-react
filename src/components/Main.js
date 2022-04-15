@@ -1,45 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {api} from "../utils/api";
-import Card from "./Card"
+import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Main(props) {
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
+function Main({onAddPlace, onCardClick, onEditAvatar, onEditProfile}) {
   const [cards, setCards] = useState([]);
+  const currentUser = useContext(CurrentUserContext);
+  const {
+    name: userName,
+    about: userAbout,
+    avatar: userAvatar
+  } = currentUser;
 
-  // useEffect(() => {
-  //
-  //   Promise.all([
-  //     api.getProfile()
-  //       .then(({name, about, avatar}) => {
-  //         setUserName(name)
-  //         setUserDescription(about)
-  //         setUserAvatar(avatar)
-  //       }),
-  //     api.getInitialCards()
-  //       .then(res => {
-  //         const data = res.map(item => {
-  //           return {
-  //             name: item.name,
-  //             likes: item.likes,
-  //             link: item.link,
-  //             id: item._id,
-  //             owner: item.owner
-  //           };
-  //         });
-  //         setCards(data);
-  //       })
-  //   ])
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }, [])
   useEffect(() => {
-
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([{name, about, avatar}, cards]) => {
-        const data = cards.map(item => {
+    api.getInitialCards()
+      .then(res => {
+        const data = res.map(item => {
           return {
             name: item.name,
             likes: item.likes,
@@ -48,9 +24,6 @@ function Main(props) {
             owner: item.owner
           };
         });
-        setUserName(name)
-        setUserDescription(about)
-        setUserAvatar(avatar)
         setCards(data);
       })
       .catch((err) => {
@@ -63,14 +36,14 @@ function Main(props) {
       <section className="profile">
         <div className="profile__content">
           <div className="profile__avatar-container">
-            <img alt="Фото профиля"
+            <img alt={`Аватар ${userName}`}
                  className="profile__avatar"
                  src={userAvatar}
             />
             <button className="button profile__avatar-edit-btn"
                     aria-label="Редактировать аватар"
                     type="button"
-                    onClick={props.onEditAvatar}
+                    onClick={onEditAvatar}
             />
           </div>
           <div className="profile__info">
@@ -79,16 +52,16 @@ function Main(props) {
               <button className="button profile__edit-btn"
                       aria-label="Редактировать профиль"
                       type="button"
-                      onClick={props.onEditProfile}
+                      onClick={onEditProfile}
               />
             </div>
-            <p className="profile__job">{userDescription}</p>
+            <p className="profile__job">{userAbout}</p>
           </div>
         </div>
         <button className="button profile__add-place-btn"
                 aria-label="Добавить место"
                 type="button"
-                onClick={props.onAddPlace}
+                onClick={onAddPlace}
         />
       </section>
       <section className="elements">
@@ -97,7 +70,7 @@ function Main(props) {
             cards.map(cardInfo => (
               <Card key={cardInfo.id}
                     card={cardInfo}
-                    onCardClick={props.onCardClick}
+                    onCardClick={onCardClick}
               />
             ))
           }

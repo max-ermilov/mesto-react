@@ -41,6 +41,8 @@
 @import url('./blocks/element/element.css');
 @import url('./blocks/element/__image-container/element__image-container.css');
 @import url('./blocks/element/__delete-btn/element__delete-btn.css');
+@import url('./blocks/element/__delete-btn/_hidden/element__delete-btn_hidden.css');
+@import url('./blocks/element/__delete-btn/_visible/element__delete-btn_visible.css');
 @import url('./blocks/element/__image/element__image.css');
 @import url('./blocks/element/__description/element__description.css');
 @import url('./blocks/element/__name/element__name.css');
