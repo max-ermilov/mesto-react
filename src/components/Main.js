@@ -14,22 +14,29 @@ function Main({onAddPlace, onCardClick, onEditAvatar, onEditProfile}) {
 
   useEffect(() => {
     api.getInitialCards()
-      .then(res => {
-        const data = res.map(item => {
-          return {
-            name: item.name,
-            likes: item.likes,
-            link: item.link,
-            id: item._id,
-            owner: item.owner
-          };
-        });
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      .then(res => setCards(res))
+      .catch(err => console.log(err))
   }, [])
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+       const cardsAfterLike = cards.map((c) => c._id === card._id ? newCard : c);
+       setCards(cardsAfterLike);
+    })
+      .catch(err => console.log(err));
+  }
+
+  function handleCardDelete(card) {
+    console.log('handleCardDelete  ==> ',  );
+    api.deleteCard(card._id)
+      .then(() => {
+        const cardsAfterDelete = cards.filter(item => item._id !== card._id);
+        setCards(cardsAfterDelete);
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <main className="content page__content">
@@ -68,9 +75,11 @@ function Main({onAddPlace, onCardClick, onEditAvatar, onEditProfile}) {
         <ul className="elements__list">
           {
             cards.map(cardInfo => (
-              <Card key={cardInfo.id}
+              <Card key={cardInfo._id}
                     card={cardInfo}
+                    onCardLike={handleCardLike}
                     onCardClick={onCardClick}
+                    onCardDelete={handleCardDelete}
               />
             ))
           }
