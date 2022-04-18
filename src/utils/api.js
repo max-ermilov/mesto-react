@@ -24,7 +24,7 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  editProfile(name, about) {
+  editProfile({name, about}) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
