@@ -11,11 +11,10 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       name: currentUser.name,
       about: currentUser.about
     })
-  }, [currentUser, onClose]);
+  }, [currentUser, isOpen]);
 
   const handleInputChange = (e) => {
-    const newFormData = {...formData, [e.target.name]: e.target.value}
-    setFormData(newFormData)
+    setFormData( formData => ({...formData, [e.target.name]: e.target.value}))
   }
 
   const handleSubmit = (e) => {

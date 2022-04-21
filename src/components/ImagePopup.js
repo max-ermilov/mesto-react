@@ -2,8 +2,14 @@ import React from "react";
 
 function ImagePopup({card, onClose}) {
   return (
-    <div className={`popup popup_type_image ${card.name && "popup_opened"}`}>
-      <figure className="popup__image-container">
+    <div className={`popup popup_type_image ${card.name && "popup_opened"}`}
+         onClick={onClose}
+    >
+      <figure className="popup__image-container"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+      >
         <img className="popup__image"
              alt={card.name}
              src={card.link}

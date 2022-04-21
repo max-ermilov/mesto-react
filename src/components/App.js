@@ -102,6 +102,17 @@ function App() {
       })
   }
 
+  const keydownHandler = (e) => {
+    if (e.key === 'Escape') {
+      closeAllPopups();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keydownHandler);
+    return () => document.removeEventListener('keydown', keydownHandler);
+  });
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">

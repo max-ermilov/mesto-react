@@ -6,8 +6,7 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   const [formData, setFormData] = useState({name: '', link: ''});
 
   const handleInputChange = (e) => {
-    const newFormData = {...formData, [e.target.name]: e.target.value}
-    setFormData(newFormData)
+    setFormData( formData => ({...formData, [e.target.name]: e.target.value}))
   }
 
   useEffect(() => {
@@ -15,14 +14,11 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
       name: '',
       link: ''
     })
-  }, [onClose]);
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddPlace({
-      name: formData.name,
-      link: formData.link,
-    })
+    onAddPlace(formData)
   }
 
   return (
