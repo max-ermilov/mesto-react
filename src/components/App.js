@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import {api} from "../utils/api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -15,18 +16,38 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-
-    api.getProfile()
-      .then((res) => {
-        setCurrentUser(res)
+    Promise.all([api.getProfile(), api.getInitialCards()])
+      .then(([profileData, initialCards]) => {
+        setCurrentUser(profileData);
+        setCards(initialCards)
       })
       .catch((err) => {
         console.log(err);
       })
   }, [])
 
+  const handleCardLike = card => {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        const cardsAfterLike = cards.map((c) => c._id === card._id ? newCard : c);
+        setCards(cardsAfterLike);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const handleCardDelete = card => {
+    // console.log('handleCardDelete  ==> ',  );
+    api.deleteCard(card._id)
+      .then(() => {
+        const cardsAfterDelete = cards.filter(item => item._id !== card._id);
+        setCards(cardsAfterDelete);
+      })
+      .catch(err => console.log(err))
+  };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true)
@@ -63,7 +84,7 @@ function App() {
   }
 
   const handleUpdateAvatar = (avatar) => {
-    //https://live.staticflickr.com/3931/15229354939_7c28a19c66_q.jpg
+    //default avatar ==> https://live.staticflickr.com/3931/15229354939_7c28a19c66_q.jpg
     api.editAvatar(avatar)
       .then((res) => {
         setCurrentUser(res);
@@ -71,6 +92,13 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+  }
+  const handleAddPlaceSubmit = (card) => {
+    api.addCard(card)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
       })
   }
 
@@ -82,6 +110,9 @@ function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handleOnCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
         />
         <Footer/>
 
@@ -95,40 +126,10 @@ function App() {
                          onUpdateAvatar={handleUpdateAvatar}
         />
 
-        <PopupWithForm name="add-card"
-                       title="Новое место"
-                       isOpen={isAddPlacePopupOpen}
+        <AddPlacePopup isOpen={isAddPlacePopupOpen}
                        onClose={closeAllPopups}
-        >
-          <input type="text"
-                 className="popup__input popup__input_field_title"
-                 name="title" id="title"
-                 placeholder="Название"
-                 aria-label="Название"
-                 minLength={2}
-                 maxLength={30}
-                 required
-          />
-          <span className="popup__input-error"
-                id="title-error"
-          />
-          <input type="url"
-                 className="popup__input popup__input_field_link"
-                 name="link"
-                 id="link"
-                 placeholder="Ссылка на картинку"
-                 aria-label="Название"
-                 required
-          />
-          <span className="popup__input-error"
-                id="link-error"
-          />
-          <input className="button popup__submit-btn popup__create-btn"
-                 type="submit"
-                 defaultValue="Создать"
-                 name="create"
-          />
-        </PopupWithForm>
+                       onAddPlace={handleAddPlaceSubmit}
+        />
 
         <PopupWithForm name="delete-confirm"
                        title="Вы уверены?"

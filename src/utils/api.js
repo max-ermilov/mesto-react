@@ -40,7 +40,7 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  addCard(name, link) {
+  addCard({name, link}) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
@@ -57,12 +57,11 @@ class Api {
 
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-        method: isLiked ? 'PUT' : 'DELETE',
-        headers: this._headers,
-      }).then((res) => this._checkResponse(res));
+      method: isLiked ? 'PUT' : 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._checkResponse(res));
   }
 }
-
 
 
 export const api = new Api({
