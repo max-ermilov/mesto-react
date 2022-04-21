@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import {api} from "../utils/api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -61,6 +62,18 @@ function App() {
       })
   }
 
+  const handleUpdateAvatar = (avatar) => {
+    //https://live.staticflickr.com/3931/15229354939_7c28a19c66_q.jpg
+    api.editAvatar(avatar)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -75,6 +88,11 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen}
                           onClose={closeAllPopups}
                           onUpdateUser={handleUpdateUser}
+        />
+
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
+                         onClose={closeAllPopups}
+                         onUpdateAvatar={handleUpdateAvatar}
         />
 
         <PopupWithForm name="add-card"
@@ -121,28 +139,6 @@ function App() {
                   name="confirm">
             Да
           </button>
-        </PopupWithForm>
-
-        <PopupWithForm name="edit-avatar"
-                       title="Обновить аватар"
-                       isOpen={isEditAvatarPopupOpen}
-                       onClose={closeAllPopups}
-        >
-          <input type="url"
-                 className="popup__input popup__input_field_avatar"
-                 name="avatar" id="avatar"
-                 placeholder="Ссылка на картинку"
-                 aria-label="Аватар"
-                 required
-          />
-          <span className="popup__input-error"
-                id="avatar-error"
-          />
-          <input className="button popup__submit-btn popup__save-btn"
-                 type="submit"
-                 defaultValue="Сохранить"
-                 name="save"
-          />
         </PopupWithForm>
 
         <ImagePopup card={selectedCard}
