@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import React, {useEffect, useState} from "react";
 
 
-export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
+export default function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading}) {
   const [formData, setFormData] = useState({name: '', link: ''});
 
   const handleInputChange = (e) => {
@@ -24,6 +24,7 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   return (
     <PopupWithForm name="add-card"
                    title="Новое место"
+                   submitButtonText={isLoading ? 'Создание...' : 'Создать'}
                    isOpen={isOpen}
                    onClose={onClose}
                    onSubmit={handleSubmit}
@@ -56,12 +57,6 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
       <span className="popup__input-error"
             id="link-error"
       />
-      <button className="button popup__submit-btn popup__create-btn"
-              type="submit"
-              defaultValue="Создать"
-              name="create"
-      >Создать
-      </button>
     </PopupWithForm>
   )
 }

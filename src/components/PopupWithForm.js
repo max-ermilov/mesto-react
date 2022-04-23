@@ -1,6 +1,6 @@
 import React from "react";
 
-function PopupWithForm({children, isOpen, name, onClose, onSubmit, title}) {
+function PopupWithForm({children, isOpen, name, onClose, onSubmit, title, submitButtonText}) {
 
   return (
     <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}
@@ -15,9 +15,17 @@ function PopupWithForm({children, isOpen, name, onClose, onSubmit, title}) {
         <form className="popup__form"
               onSubmit={onSubmit}
               name={name}
+              id={name}
               noValidate>
           {children}
         </form>
+        <button className="button popup__submit-btn popup__save-input-btn"
+                type="submit"
+                form={name}
+                defaultValue="Cохранить"
+                name="save"
+        >{submitButtonText}
+        </button>
         <button className="button popup__close-btn"
                 type="button"
                 name="close"
