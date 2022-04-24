@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+import DeleteCardPopup from "./DeleteCardPopup";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -14,6 +14,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(null);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -50,6 +51,7 @@ function App() {
         const cardsAfterDelete = cards.filter(item => item._id !== card._id);
         setCards(cardsAfterDelete);
         setIsLoading(false);
+        closeAllPopups();
       })
       .catch(err => {
         console.log(err);
@@ -73,10 +75,16 @@ function App() {
     setSelectedCard(card)
   }
 
+  const handleDeleteCardClick = (card) => {
+    // write selected card into isDeleteCardPopupOpen to use in both open popup and deletion target
+    setIsDeleteCardPopupOpen(card)
+  }
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
+    setIsDeleteCardPopupOpen(null)
     setSelectedCard({})
   }
 
@@ -143,7 +151,7 @@ function App() {
               onCardClick={handleOnCardClick}
               cards={cards}
               onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardDelete={handleDeleteCardClick}
               isPageLoading={isPageLoading}
         />
         <Footer/>
@@ -166,16 +174,12 @@ function App() {
                        onAddPlace={handleAddPlaceSubmit}
         />
 
-        <PopupWithForm name="delete-confirm"
-                       title="Вы уверены?"
-        >
-          <button className="button popup__submit-btn"
-                  type="submit"
-                  value="Да"
-                  name="confirm">
-            Да
-          </button>
-        </PopupWithForm>
+        <DeleteCardPopup isOpen={isDeleteCardPopupOpen}
+                         isLoading={isLoading}
+                         onClose={closeAllPopups}
+                         card={isDeleteCardPopupOpen}
+                         onCardDelete={handleCardDelete}
+        />
 
         <ImagePopup card={selectedCard}
                     onClose={closeAllPopups}
